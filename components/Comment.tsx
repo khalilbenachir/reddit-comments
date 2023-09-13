@@ -5,16 +5,10 @@ import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
 
 import CustomAvatar from "@/components/Avatar";
 import { Button } from "@/components/ui/button";
+import type { TComment } from "@/types/comment";
+import Comments from "./CommentList";
 
-type TComment = {
-  username: string;
-  children?: React.ReactNode;
-  comment: {
-    content: string;
-  };
-};
-
-const Comment: React.FC<TComment> = ({ username, comment, children }) => {
+const Comment: React.FC<TComment> = ({ username, content, id, replies }) => {
   return (
     <section
       className="
@@ -41,7 +35,7 @@ const Comment: React.FC<TComment> = ({ username, comment, children }) => {
     >
       <CustomAvatar className="absolute z-10 shadow-white left-0 -translate-x-1/2 -translate-y-[25%] h-8 w-8" />
       <p className="font-semibold text-sm">{username}</p>
-      <p className="font-normal text-sm">{comment.content}</p>
+      <p className="font-normal text-sm">{content}</p>
       <div className="flex gap-1.5 items-center">
         <Button size="icon" variant="ghost">
           <BiUpvote className="h-5 w-5" />
@@ -55,7 +49,7 @@ const Comment: React.FC<TComment> = ({ username, comment, children }) => {
           reply
         </Button>
       </div>
-      {children}
+      {!!replies?.length && <Comments data={replies} />}
     </section>
   );
 };
